@@ -1,0 +1,8 @@
+<!-- creaetStoreBehavior 把 userStore 的属性映射到了 Page 的 data 中 -->
+<view wx:for="{{shopList}}" wx:key="{{item.id}}">
+  {{ item.name}}
+</view>
+
+<button bindtap="refreshShopList">
+  刷新
+</button>

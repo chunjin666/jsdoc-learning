@@ -1,0 +1,25 @@
+{
+  "name": "jsdoc-learning",
+  "version": "1.0.0",
+  "description": "通过代码学习 [TypeScript支持](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html) 的 JSDoc 语法的使用",
+  "main": "index.js",
+  "dependencies": {
+    "mobx-miniprogram": "^4.13.2"
+  },
+  "devDependencies": {
+    "@types/wechat-miniprogram": "^3.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chunjin666/jsdoc-learning.git"
+  },
+  "author": "chunjin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chunjin666/jsdoc-learning/issues"
+  },
+  "homepage": "https://github.com/chunjin666/jsdoc-learning#readme"
+}

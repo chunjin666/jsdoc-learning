@@ -60,3 +60,6 @@ let env
 function getAppConfig() {
   return AppConfig[env]
 }
+
+
+export default {}
