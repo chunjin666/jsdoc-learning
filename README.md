@@ -5,7 +5,7 @@
 ## JSDoc 脑图
 
 下面这个脑图是按用途的方式来罗列了 `JSDoc` 中的标签，也可以按这个图来检索或者学习具体的标签。
-![JSDoc 脑图](./jsdoc-mindmap.png)
+![JSDoc 脑图](https://note-assets-1303312144.cos.ap-guangzhou.myqcloud.com/imgs/jsdoc-mindmap.png)
 
 ## 使用方法
 
@@ -21,11 +21,11 @@
 
 ### form-rules
 
-里面用到了 `@typedef` `@callback` `param` `returns` 这几个标签，还涉及到了 TS 中的工具类型 `Record` 以及 元组类型的用法。
+里面用到了 `@typedef` `@callback` `@param` `@returns` 这几个标签，还涉及到了 TS 中的工具类型 `Record` 以及 元组类型的用法。
 
 ### enum
 
-里面用到了 `enum` `@type` `param` 这几个标签，基本上可以实现 TypeScript 中 enum 的用法。
+里面用到了 `@enum` `@type` `@param` 这几个标签，基本上可以实现 TypeScript 中 enum 的用法。
 
 ### store
 
@@ -33,4 +33,4 @@
 
 ### wx-axios
 
-这个示例相对稍复杂，wx-axios 目录下是对 axios 库在微信小程序环境下大部分功能的封装。除了其他使用的 JSDoc 标签外，还大量使用到了提供泛型能力的 `template` 标签。这里可以关注一下封装后，在写请求时，options 参数可以提示自定义格式的参数（比如：showLoading, loadingMsg, resultValidator 等），.then 的结果里面也能获取到是有一个 data 属性。然后进一步可以再去看一下里面是怎么实现的。
+这个示例相对稍复杂，wx-axios 目录下是对 axios 库在微信小程序环境下大部分功能的封装。除了其他使用的 JSDoc 标签外，还大量使用到了提供泛型能力的 `@template` 标签。这里可以关注一下封装后，在写请求时，options 参数可以提示自定义格式的参数（比如：showLoading, loadingMsg, resultValidator 等），.then 的结果里面也能获取到是有一个 data 属性。然后进一步可以再去看一下里面是怎么实现的。
