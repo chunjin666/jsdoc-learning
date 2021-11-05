@@ -1,20 +1,20 @@
-import utils from '../utils'
-import InterceptorManager from './InterceptorManager'
-import { obj2Param } from '../url'
+import utils from '../utils';
+import InterceptorManager from './InterceptorManager';
+import { obj2Param } from '../url';
 
-const NoDataParamRequestMethods = ['options', 'head', 'delete']
+const NoDataParamRequestMethods = ['options', 'head', 'delete'];
 
 /**
  * @typedef {'options' | 'head' | 'delete'} NoDataParamRequestMethods
  */
 
 /**
- * 
- * @param {any} config 
+ *
+ * @param {any} config
  */
 function throwIfCancellationRequested(config) {
   if (config.cancelToken) {
-    config.cancelToken.throwIfRequested()
+    config.cancelToken.throwIfRequested();
   }
 }
 
@@ -22,7 +22,7 @@ function throwIfCancellationRequested(config) {
  * @param {{ __CANCEL__: any; }} value
  */
 function isCancel(value) {
-  return !!(value && value.__CANCEL__)
+  return !!(value && value.__CANCEL__);
 }
 
 /**
@@ -36,7 +36,7 @@ function isAbsoluteURL(url) {
   // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
   // by any combination of letters, digits, plus, period, or hyphen.
   // eslint-disable-next-line no-useless-escape
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 }
 
 /**
@@ -47,7 +47,9 @@ function isAbsoluteURL(url) {
  * @returns {string} The combined URL
  */
 function combineURLs(baseURL, relativeURL) {
-  return relativeURL ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '') : baseURL
+  return relativeURL
+    ? baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '')
+    : baseURL;
 }
 
 /**
@@ -56,9 +58,9 @@ function combineURLs(baseURL, relativeURL) {
  */
 function buildFullPath(baseURL, requestedURL) {
   if (baseURL && !isAbsoluteURL(requestedURL)) {
-    return combineURLs(baseURL, requestedURL)
+    return combineURLs(baseURL, requestedURL);
   }
-  return requestedURL
+  return requestedURL;
 }
 
 /**
@@ -69,10 +71,10 @@ function buildFullPath(baseURL, requestedURL) {
 function transformData(data, header, fns) {
   // console.log('transformData', data, header, fns)
   utils.forEach(fns, (fn) => {
-    data = fn(data, header)
-  })
+    data = fn(data, header);
+  });
 
-  return data
+  return data;
 }
 
 /**
@@ -81,68 +83,82 @@ function transformData(data, header, fns) {
  * @returns {Promise<any>}
  */
 function dispatchRequest(config) {
-  throwIfCancellationRequested(config)
+  throwIfCancellationRequested(config);
 
-  config.header = config.header || {}
-  ;['delete', 'get', 'head', 'post', 'put', 'patch', 'common'].forEach((method) => {
-    delete config.header[method]
-  })
+  config.header = config.header || {};
+  ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'].forEach(
+    (method) => {
+      delete config.header[method];
+    }
+  );
   Object.keys(config).forEach((key) => {
     // @ts-ignore
     if (config[key] == undefined) {
       // @ts-ignore
-      delete config[key]
+      delete config[key];
     }
-  })
+  });
 
   /**
    * @type {WechatMiniprogram.RequestTask}
    */
-  let task
+  let task;
   return new Promise((resolve, reject) => {
-    const { data, header, timeout, method, dataType, responseType } = config
-    const url = buildFullPath(config.baseURL, config.url)
-    const reqestConfig = { url, data, header, timeout, method, dataType, responseType }
+    const { data, header, timeout, method, dataType, responseType } = config;
+    const url = buildFullPath(config.baseURL, config.url);
+    const reqestConfig = {
+      url,
+      data,
+      header,
+      timeout,
+      method,
+      dataType,
+      responseType,
+    };
     Object.keys(reqestConfig).forEach((key) => {
       // @ts-ignore
-      reqestConfig[key] === undefined && delete reqestConfig[key]
-    })
+      reqestConfig[key] === undefined && delete reqestConfig[key];
+    });
     // @ts-ignore
     task = wx.request({
       ...reqestConfig,
       success: (res) => {
-        resolve(res)
+        resolve(res);
       },
       fail: (res) => {
-        console.warn(res)
-        reject(res)
+        console.warn(res);
+        reject(res);
       },
-    })
+    });
   })
     .then((res) => {
-      throwIfCancellationRequested(config)
+      throwIfCancellationRequested(config);
 
-      res.config = config
-      res.task = task
+      res.config = config;
+      res.task = task;
 
-      return res
+      return res;
     })
     .catch((reason) => {
       // { errMsg }
       if (!isCancel(reason)) {
-        throwIfCancellationRequested(config)
+        throwIfCancellationRequested(config);
 
         // Transform response data
         if (reason && reason.response) {
-          reason.response.data = transformData(reason.response.data, reason.response.header, config.transformResponse)
+          reason.response.data = transformData(
+            reason.response.data,
+            reason.response.header,
+            config.transformResponse
+          );
         }
       }
 
-      reason.config = config
-      reason.task = task
+      reason.config = config;
+      reason.task = task;
 
-      return Promise.reject(reason)
-    })
+      return Promise.reject(reason);
+    });
 }
 
 /**
@@ -153,11 +169,11 @@ function dispatchRequest(config) {
  */
 function isPlainObject(val) {
   if (toString.call(val) !== '[object Object]') {
-    return false
+    return false;
   }
 
-  const prototype = Object.getPrototypeOf(val)
-  return prototype === null || prototype === Object.prototype
+  const prototype = Object.getPrototypeOf(val);
+  return prototype === null || prototype === Object.prototype;
 }
 
 /**
@@ -184,7 +200,7 @@ function isPlainObject(val) {
  */
 function merge(...args) {
   /** @type {Record<PropertyKey, any>} */
-  const result = {}
+  const result = {};
   /**
    * @param {string | object} val
    * @param {string | number} key
@@ -192,23 +208,23 @@ function merge(...args) {
   function assignValue(val, key) {
     if (isPlainObject(result[key]) && isPlainObject(val)) {
       // @ts-ignore
-      result[key] = merge(result[key], val)
+      result[key] = merge(result[key], val);
     } else if (isPlainObject(val)) {
       // @ts-ignore
-      result[key] = merge({}, val)
+      result[key] = merge({}, val);
     } else if (Array.isArray(val)) {
-      result[key] = val.slice()
+      result[key] = val.slice();
     } else {
-      result[key] = val
+      result[key] = val;
     }
   }
 
   for (let i = 0, l = args.length; i < l; i++) {
     // @ts-ignore
-    utils.forEach(args[i], assignValue)
+    utils.forEach(args[i], assignValue);
   }
   // @ts-ignore
-  return result
+  return result;
 }
 
 /**
@@ -236,7 +252,7 @@ class WxAxios {
   /**
    * @type {Partial<RequestConfig<TExtraOptions>>}
    */
-  defaults = {}
+  defaults = {};
   interceptors = {
     /**
      * @type {InterceptorManager<RequestAllConfig<TExtraOptions>, Error>}
@@ -246,12 +262,12 @@ class WxAxios {
      * @type {InterceptorManager<{ statusCode: number, data: any, config: RequestAllConfig<TExtraOptions> }, { statusCode: number, config: RequestAllConfig<TExtraOptions>}>}
      */
     response: new InterceptorManager(),
-  }
+  };
   /**
    * @param {RequestAllConfig<TExtraOptions> } instanceConfig
    */
   constructor(instanceConfig) {
-    this.defaults = instanceConfig || this.defaults
+    this.defaults = instanceConfig || this.defaults;
   }
 
   /**
@@ -261,48 +277,52 @@ class WxAxios {
    */
   request(urlOrConfig, config) {
     if (typeof urlOrConfig === 'string') {
-      config = config || {}
+      config = config || {};
       // @ts-ignore
-      config.url = urlOrConfig
+      config.url = urlOrConfig;
     } else {
-      config = urlOrConfig || {}
+      config = urlOrConfig || {};
     }
 
-    config = merge(this.defaults, config)
+    config = merge(this.defaults, config);
     if (config.method) {
       // @ts-ignore
-      config.method = config.method.toUpperCase()
+      config.method = config.method.toUpperCase();
       // @ts-ignore
     } else if (this.defaults.method) {
       // @ts-ignore
-      config.method = this.defaults.method.toUpperCase()
+      config.method = this.defaults.method.toUpperCase();
     } else {
       // @ts-ignore
-      config.method = 'GET'
+      config.method = 'GET';
     }
 
-    const chain = [dispatchRequest, undefined]
+    const chain = [dispatchRequest, undefined];
     /** @type {Promise<TResponseData>} */
     // @ts-ignore
-    let promise = Promise.resolve(config)
+    let promise = Promise.resolve(config);
 
     // @ts-ignore
-    this.interceptors.request.forEachInterceptor(function unshiftRequestInterceptors(interceptor) {
-      // @ts-ignore
-      chain.unshift(interceptor.fulfilled, interceptor.rejected)
-    })
+    this.interceptors.request.forEachInterceptor(
+      function unshiftRequestInterceptors(interceptor) {
+        // @ts-ignore
+        chain.unshift(interceptor.fulfilled, interceptor.rejected);
+      }
+    );
 
     // @ts-ignore
-    this.interceptors.response.forEachInterceptor(function pushResponseInterceptors(interceptor) {
-      // @ts-ignore
-      chain.push(interceptor.fulfilled, interceptor.rejected)
-    })
+    this.interceptors.response.forEachInterceptor(
+      function pushResponseInterceptors(interceptor) {
+        // @ts-ignore
+        chain.push(interceptor.fulfilled, interceptor.rejected);
+      }
+    );
 
     while (chain.length) {
       // @ts-ignore
-      promise = promise.then(chain.shift(), chain.shift())
+      promise = promise.then(chain.shift(), chain.shift());
     }
-    return promise
+    return promise;
   }
 
   /**
@@ -311,15 +331,15 @@ class WxAxios {
    * @param {Partial<RequestAllConfig<TExtraOptions>>} [config]
    */
   get(url, data = {}, config = {}) {
-    const urlParams = obj2Param(data)
-    url += urlParams ? '?' + urlParams : ''
+    const urlParams = obj2Param(data);
+    url += urlParams ? '?' + urlParams : '';
     return this.request(
       merge(config || {}, {
         method: 'GET',
         url,
         data: (config || {}).data,
-      }),
-    )
+      })
+    );
   }
 
   /**
@@ -332,8 +352,8 @@ class WxAxios {
         method: 'OPTIONS',
         url,
         data: (config || {}).data,
-      }),
-    )
+      })
+    );
   }
 
   /**
@@ -346,8 +366,8 @@ class WxAxios {
         method: 'HEAD',
         url,
         data: (config || {}).data,
-      }),
-    )
+      })
+    );
   }
 
   /**
@@ -360,8 +380,8 @@ class WxAxios {
         method: 'DELETE',
         url,
         data: (config || {}).data,
-      }),
-    )
+      })
+    );
   }
 
   /**
@@ -376,8 +396,8 @@ class WxAxios {
         method: 'POST',
         url,
         data: data || {},
-      }),
-    )
+      })
+    );
   }
 
   /**
@@ -392,8 +412,8 @@ class WxAxios {
         method: 'PUT',
         url,
         data: data || {},
-      }),
-    )
+      })
+    );
   }
 
   /**
@@ -407,8 +427,8 @@ class WxAxios {
         method: 'patch',
         url,
         data,
-      }),
-    )
+      })
+    );
   }
 
   /**
@@ -429,8 +449,12 @@ class WxAxios {
        */
       return (config) => {
         // @ts-ignore
-        return WxAxios.prototype[method].bind(this, url, Object.assign({}, defaultConfig, config))
-      }
+        return WxAxios.prototype[method].bind(
+          this,
+          url,
+          Object.assign({}, defaultConfig, config)
+        );
+      };
     }
     /**
      * @type {(data?: Record<string, any>, config?: Partial<RequestAllConfig<TExtraOptions>>) => ReturnType<this[RequestMethods]>}
@@ -441,11 +465,10 @@ class WxAxios {
         this,
         url,
         Object.assign({}, defaultData, data),
-        Object.assign({}, defaultConfig, config),
-      )
-    }
+        Object.assign({}, defaultConfig, config)
+      );
+    };
   }
-
 
   /**
    * @typedef {(url: string, defaultData?: Record<string, any>, defaultConfig?: Partial<RequestAllConfig<TExtraOptions>>) => ((data?: Record<string, any>, config?: Partial<RequestAllConfig<TExtraOptions>>) => Promise<TResponseData>)} DataWrap
@@ -456,7 +479,7 @@ class WxAxios {
    */
   getWrap(url, defaultData, defaultConfig) {
     // @ts-ignore
-    return this.wrap('get', url, defaultData, defaultConfig)
+    return this.wrap('get', url, defaultData, defaultConfig);
   }
   /**
    * @type {DataWrap}
@@ -466,7 +489,7 @@ class WxAxios {
    */
   postWrap(url, defaultData, defaultConfig) {
     // @ts-ignore
-    return this.wrap('post', url, defaultData, defaultConfig)
+    return this.wrap('post', url, defaultData, defaultConfig);
   }
   /**
    * @type {DataWrap}
@@ -476,7 +499,7 @@ class WxAxios {
    */
   putWrap(url, defaultData, defaultConfig) {
     // @ts-ignore
-    return this.wrap('put', url, defaultData, defaultConfig)
+    return this.wrap('put', url, defaultData, defaultConfig);
   }
   /**
    * @type {DataWrap}
@@ -486,9 +509,8 @@ class WxAxios {
    */
   patchWrap(url, defaultData, defaultConfig) {
     // @ts-ignore
-    return this.wrap('patch', url, defaultData, defaultConfig)
+    return this.wrap('patch', url, defaultData, defaultConfig);
   }
-
 
   /**
    * @typedef {(url: string, defaultConfig?: Partial<RequestAllConfig<TExtraOptions>>) => (config?: Partial<RequestAllConfig<TExtraOptions>>) => Promise<TResponseData>} NoDataWrap
@@ -498,7 +520,7 @@ class WxAxios {
    */
   optionsWrap(url, defaultConfig) {
     // @ts-ignore
-    return this.wrap('options', url, {}, defaultConfig)
+    return this.wrap('options', url, {}, defaultConfig);
   }
 
   /**
@@ -508,7 +530,7 @@ class WxAxios {
    */
   headWrap(url, defaultConfig) {
     // @ts-ignore
-    return this.wrap('head', url, {}, defaultConfig)
+    return this.wrap('head', url, {}, defaultConfig);
   }
 
   /**
@@ -518,8 +540,8 @@ class WxAxios {
    */
   deleteWrap(url, defaultConfig) {
     // @ts-ignore
-    return this.wrap('delete', url, null, defaultConfig)
+    return this.wrap('delete', url, null, defaultConfig);
   }
 }
 
-export default WxAxios
+export default WxAxios;

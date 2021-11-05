@@ -9,11 +9,11 @@ const userAccountDefault = {
   age: 18,
   isLogin: false,
   login() {
-    this.isLogin = true
+    this.isLogin = true;
   },
   logout() {
-    this.isLogin = false
+    this.isLogin = false;
   },
-}
+};
 
-export { userAccountDefault }
+export { userAccountDefault };

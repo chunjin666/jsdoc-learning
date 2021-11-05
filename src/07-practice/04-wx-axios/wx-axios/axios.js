@@ -1,14 +1,14 @@
-import WxAxios from './core/WxAxios'
-import utils from './utils'
-import deepClone from './deepClone'
-import { defaults } from './defaults'
+import WxAxios from './core/WxAxios';
+import utils from './utils';
+import deepClone from './deepClone';
+import { defaults } from './defaults';
 
 /**
  * @param {Partial<import("./core/WxAxios").RequestConfig<{ transformRequest: never[]; transformResponse: never[]; header: {}; }>>} c1
  * @param {any} c2
  */
 function mergeConfig(c1, c2) {
-  return Object.assign(deepClone(c1), c2)
+  return Object.assign(deepClone(c1), c2);
 }
 
 /**
@@ -23,22 +23,21 @@ function mergeConfig(c1, c2) {
  */
 function createInstance(defaultConfig) {
   // @ts-ignore
-  const context = new WxAxios(defaultConfig)
-  const instance = utils.bind(WxAxios.prototype.request, context)
+  const context = new WxAxios(defaultConfig);
+  const instance = utils.bind(WxAxios.prototype.request, context);
 
   // Copy axios.prototype to instance
-  utils.extendFunctionsFromProto(instance, WxAxios.prototype, context)
+  utils.extendFunctionsFromProto(instance, WxAxios.prototype, context);
 
   // Copy context to instance
-  utils.extendProps(instance, context)
+  utils.extendProps(instance, context);
 
   // @ts-ignore
-  return instance
+  return instance;
 }
 
 // Create the default instance to be exported
-const axios = createInstance(defaults)
-
+const axios = createInstance(defaults);
 
 // Factory for creating new instances
 /**
@@ -46,7 +45,7 @@ const axios = createInstance(defaults)
  * @type {AxiosCreator<TExtraOptions, TResponseData>}
  */
 function create(instanceConfig) {
-  return createInstance(mergeConfig(axios.defaults, instanceConfig))
+  return createInstance(mergeConfig(axios.defaults, instanceConfig));
 }
 
 // Expose Cancel & CancelToken
@@ -58,7 +57,7 @@ function create(instanceConfig) {
  * @param {readonly [any, any, any, any, any, any, any, any, any, any]} promises
  */
 function all(promises) {
-  return Promise.all(promises)
+  return Promise.all(promises);
 }
 
 export default {
@@ -68,4 +67,4 @@ export default {
   Axios: WxAxios,
   create,
   all,
-}
+};

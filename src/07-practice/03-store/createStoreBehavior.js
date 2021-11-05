@@ -1,6 +1,6 @@
-import { autorun } from 'mobx-miniprogram'
-import { clonePartial } from './clonePartial'
-import debounce from './debounce'
+import { autorun } from 'mobx-miniprogram';
+import { clonePartial } from './clonePartial';
+import debounce from './debounce';
 
 /**
  * @typedef {Object} StoreOptions
@@ -17,11 +17,11 @@ import debounce from './debounce'
 const defaultStoreOptions = {
   deep: true,
   delay: 0,
-}
+};
 
 /**
  * @typedef {WechatMiniprogram.Page.Instance<Record<PropertyKey, any>, Record<PropertyKey, any>> | WechatMiniprogram.Component.Instance<Record<PropertyKey, any>, Record<PropertyKey, any>, Record<PropertyKey, any>>} PageOrComponentInstance
- * 
+ *
  * @typedef {WechatMiniprogram.Page.Options<Record<PropertyKey, any>, Record<PropertyKey, any>> | WechatMiniprogram.Component.Options<Record<PropertyKey, any>, Record<PropertyKey, any>, Record<PropertyKey, any>>} PageOrComponentOptions
  */
 
@@ -41,67 +41,76 @@ const defaultStoreOptions = {
  * - `delay`: 表示延迟更新setData的毫秒数
  * @this {PageOrComponentInstance}
  */
-export default function createStoreBehavior(store, storeOptions = defaultStoreOptions) {
-  const keys = Object.getOwnPropertyNames(store)
-  storeOptions = Object.assign({}, defaultStoreOptions, storeOptions)
-  const { key: storeKey, props, actions, deep = true, delay = 0 } = storeOptions
+export default function createStoreBehavior(
+  store,
+  storeOptions = defaultStoreOptions
+) {
+  const keys = Object.getOwnPropertyNames(store);
+  storeOptions = Object.assign({}, defaultStoreOptions, storeOptions);
+  const {
+    key: storeKey,
+    props,
+    actions,
+    deep = true,
+    delay = 0,
+  } = storeOptions;
 
   /**
    * @type {PageOrComponentOptions}
    */
-  const behaviorOptions = { methods: {}, lifetimes: {} }
-  const { methods, lifetimes } = behaviorOptions
-  const excludeKeys = ['$mobx']
+  const behaviorOptions = { methods: {}, lifetimes: {} };
+  const { methods, lifetimes } = behaviorOptions;
+  const excludeKeys = ['$mobx'];
   /** @type {PropertyKey[]} */
-  const mapProps = []
+  const mapProps = [];
   // const mapActions = []
   keys
     .filter((key) => !excludeKeys.includes(key))
     .forEach((key) => {
       // @ts-ignore
-      const value = store[key]
+      const value = store[key];
       if (typeof value === 'function') {
-        if (actions && !actions.includes(key)) return
-        const methodKey = storeKey ? `${storeKey}.${key}` : key
-        methods[methodKey] = value.bind(store)
+        if (actions && !actions.includes(key)) return;
+        const methodKey = storeKey ? `${storeKey}.${key}` : key;
+        methods[methodKey] = value.bind(store);
         // mapActions.push(methodKey)
       } else {
-        if (props && !props.includes(key)) return
-        mapProps.push(key)
+        if (props && !props.includes(key)) return;
+        mapProps.push(key);
       }
-    })
+    });
 
   /** @type {Function[]} */
-  const disposes = []
+  const disposes = [];
   /** @this {PageOrComponentInstance} */
-  function attached () {
-    const lazySetData = debounce(this.setData.bind(this), delay)
-    let dataInitialized = false
+  function attached() {
+    const lazySetData = debounce(this.setData.bind(this), delay);
+    let dataInitialized = false;
     disposes.push(
       autorun(() => {
         if (deep) {
           // 追踪数据深度变化
           // @ts-ignore
-          mapProps.forEach((p) => JSON.stringify(store[p]))
+          mapProps.forEach((p) => JSON.stringify(store[p]));
         }
-        let dataObj = clonePartial(store, mapProps)
-        storeKey && (dataObj = { [storeKey]: dataObj })
+        let dataObj = clonePartial(store, mapProps);
+        storeKey && (dataObj = { [storeKey]: dataObj });
         if (!dataInitialized) {
-          dataInitialized = true
-          this.setData(dataObj)
+          dataInitialized = true;
+          this.setData(dataObj);
         } else {
-          lazySetData(dataObj)
+          lazySetData(dataObj);
         }
         // console.log('store behavior setData', dataObj)
-      }),
-    )
+      })
+    );
   }
   /** @this {PageOrComponentInstance} */
-  function detached () {
-    disposes.forEach((dispose) => dispose())
+  function detached() {
+    disposes.forEach((dispose) => dispose());
   }
-  lifetimes.attached = attached
-  lifetimes.detached = detached
+  lifetimes.attached = attached;
+  lifetimes.detached = detached;
 
-  return Behavior(behaviorOptions)
+  return Behavior(behaviorOptions);
 }

@@ -10,7 +10,7 @@ class InterceptorManager {
   /**
    * @type {(HandlerItem |  null)[]}
    */
-  handlers = []
+  handlers = [];
   /**
    * 添加interceptor
    * @param {Fulfilled=} fulfilled Promise 的 then 回调方法
@@ -21,8 +21,8 @@ class InterceptorManager {
     this.handlers.push({
       fulfilled,
       rejected,
-    })
-    return this.handlers.length - 1
+    });
+    return this.handlers.length - 1;
   }
   /**
    * 删除添加的interceptor
@@ -30,7 +30,7 @@ class InterceptorManager {
    */
   eject(id) {
     if (this.handlers[id]) {
-      this.handlers[id] = null
+      this.handlers[id] = null;
     }
   }
 
@@ -41,10 +41,10 @@ class InterceptorManager {
   forEachInterceptor(fn) {
     this.handlers.forEach((record) => {
       if (record !== null) {
-        fn(record)
+        fn(record);
       }
-    })
+    });
   }
 }
 
-export default InterceptorManager
+export default InterceptorManager;

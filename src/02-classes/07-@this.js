@@ -4,12 +4,12 @@
 /**
  * @this {HTMLElement}
  */
- function clearEventHandler() {
-  this.onclick = null
-  this.onblur = null
-  this.onfocus = null
+function clearEventHandler() {
+  this.onclick = null;
+  this.onblur = null;
+  this.onfocus = null;
 }
 
-const someEl = document.querySelector('#id_xxx')
-clearEventHandler.call(someEl)
+const someEl = document.querySelector('#id_xxx');
+clearEventHandler.call(someEl);
 // 也可以把 clearEventHandler 添加到 HTMLElement 的原型上来使用

@@ -1,4 +1,4 @@
-import FormRules from './FormRules'
+import FormRules from './FormRules';
 
 const rules = FormRules({
   a: { bytelength: 50 },
@@ -13,13 +13,14 @@ const rules = FormRules({
     {
       validator: (rule, value, param, models) => {
         if (['abc', 'def', 'ghi'].includes(value) === false) {
-          return '内容不合法，请重新输入'
+          return '内容不合法，请重新输入';
         }
-        return ''
+        return '';
       },
     },
   ],
-})
+  i: { lengthrange: [1, 2] },
+});
 
 Page({
   data: {
@@ -35,4 +36,4 @@ Page({
     },
     rules,
   },
-})
+});

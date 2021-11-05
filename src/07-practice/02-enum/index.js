@@ -1,7 +1,8 @@
-import EnvTypes from './EnvTypes'
-import ServerTypes from './ServerTypes'
-import { getBaseURL, setEnv } from "./config";
+import EnvTypes from './EnvTypes';
+import ServerTypes from './ServerTypes';
+import { getBaseURL, setEnv } from './config';
 
-setEnv(EnvTypes.DEV)
+setEnv(EnvTypes.DEV);
+setEnv(EnvTypes.PRE);
 
-const baseUrl = getBaseURL(ServerTypes.ORDER)
+const baseUrl = getBaseURL(ServerTypes.ORDER);

@@ -10,7 +10,7 @@
  * @param {number} acc
  * @param {number} cur
  */
-const sumReducer = (acc, cur) => acc + cur
+const sumReducer = (acc, cur) => acc + cur;
 
 /**
  * @type {{
@@ -20,13 +20,13 @@ const sumReducer = (acc, cur) => acc + cur
  */
 const sum = (...nums) => {
   if (Array.isArray(nums[0])) {
-    return nums[0].reduce(sumReducer, 0)
+    return nums[0].reduce(sumReducer, 0);
   }
-  return /** @type {number[]} */ (nums).reduce(sumReducer, 0)
-}
+  return /** @type {number[]} */ (nums).reduce(sumReducer, 0);
+};
 
-sum(1, 2, 3)
-sum([1, 2, 3])
+sum(1, 2, 3);
+sum([1, 2, 3]);
 
 // ------------------------------------------------------------------------------
 // 方式二：
@@ -50,5 +50,5 @@ sum([1, 2, 3])
  */
 function overloaded(...args) {}
 
-overloaded(1, 'foo')
-overloaded(true, { foo: 'bar' })
+overloaded(1, 'foo');
+overloaded(true, { foo: 'bar' });

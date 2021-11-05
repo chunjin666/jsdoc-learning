@@ -1,11 +1,11 @@
-import { observable, action } from 'mobx-miniprogram'
+import { observable, action } from 'mobx-miniprogram';
 
 /**
  * 判断是否是对象类型
  * @param {unknown} value
  */
- export function isObject(value) {
-  return value !== null && typeof value === 'object'
+export function isObject(value) {
+  return value !== null && typeof value === 'object';
 }
 
 /**
@@ -17,13 +17,13 @@ import { observable, action } from 'mobx-miniprogram'
 function extractDecorators(srcObj) {
   // @ts-ignore
   return Object.keys(srcObj).reduce((pre, key) => {
-    const descriptor = Object.getOwnPropertyDescriptor(srcObj, key)
+    const descriptor = Object.getOwnPropertyDescriptor(srcObj, key);
     if (descriptor && typeof descriptor.value === 'function') {
       // @ts-ignore
-      pre[key] = action
+      pre[key] = action;
     }
-    return pre
-  }, {})
+    return pre;
+  }, {});
 }
 
 /**
@@ -42,6 +42,6 @@ function extractDecorators(srcObj) {
  * storeA.setName('new name')
  */
 export default function createStore(value) {
-  if (!isObject(value)) throw Error('value must be object')
-  return observable(value, extractDecorators(value))
+  if (!isObject(value)) throw Error('value must be object');
+  return observable(value, extractDecorators(value));
 }

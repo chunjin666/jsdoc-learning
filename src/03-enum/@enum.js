@@ -5,7 +5,7 @@ const OrderState = {
   NotPaid: 0,
   Paid: 1,
   Failure: 2,
-}
+};
 
 /**
  *
@@ -15,19 +15,19 @@ function checkOrderState(state) {
   switch (state) {
     case OrderState.NotPaid:
       // ...
-      break
+      break;
     case OrderState.Paid:
       // ...
-      break
+      break;
     case OrderState.Failure:
       // ...
-      break
+      break;
     // default:
     //   throw Error("invalid state")
   }
 }
 
-checkOrderState(OrderState.NotPaid) // Ok
+checkOrderState(OrderState.NotPaid); // Ok
 
 // ------------------------------------------------------------------------------
 // 还可以把枚举类型写成更精确的联合类型，
@@ -37,12 +37,12 @@ checkOrderState(OrderState.NotPaid) // Ok
  */
 const EnvTypes = {
   /** @type {'development'} */
-  Development: "development",
+  Development: 'development',
   /** @type {'staging'} */
-  Staging: "staging",
+  Staging: 'staging',
   /** @type {'production'} */
-  Production: "production",
-}
+  Production: 'production',
+};
 
 /**
  * @type {Record<EnvTypes, {baseURL: string, title?: string}>}
@@ -51,15 +51,14 @@ const AppConfig = {
   [EnvTypes.Development]: { baseURL: '/dev', title: 'xxx' },
   [EnvTypes.Staging]: { baseURL: '/stage', title: 'yyy' },
   [EnvTypes.Production]: { baseURL: '/prod', title: 'zzz' },
-}
+};
 
 /** @type {EnvTypes} */
-let env
+let env;
 
 // 这里能正确推断出返回值的类型
 function getAppConfig() {
-  return AppConfig[env]
+  return AppConfig[env];
 }
 
-
-export default {}
+export default {};

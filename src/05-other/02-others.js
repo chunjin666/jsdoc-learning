@@ -3,14 +3,14 @@
 /**
  * @type {*} - can be 'any' type
  */
-var star
+var star;
 /**
  * @type {?} - unknown type (same as 'any')
  */
-var question
+var question;
 
 // ------------------------------------------------------------------------------坑点
 // 单行注释只能添加一种类型
 // 比如下面一行里面既有描述又有 @type，会导致无法识别
 /** 坑 @type {string} */
-var keng
+var keng;

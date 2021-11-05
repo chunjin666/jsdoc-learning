@@ -1,5 +1,5 @@
-import EnvTypes from './EnvTypes'
-import ServerTypes from './ServerTypes'
+import EnvTypes from './EnvTypes';
+import ServerTypes from './ServerTypes';
 
 /**
  * 配置不同环境下，不同服务器的API地址
@@ -26,24 +26,24 @@ const BaseURLConfig = {
     [ServerTypes.USER]: 'https://www.example.golden.com/user/v1/',
     [ServerTypes.ORDER]: 'https://www.example.golden.com/order/v1/',
   },
-}
+};
 
 /** @type {EnvTypes} */
-let env = EnvTypes.PROD
+let env = EnvTypes.PROD;
 
 /**
  * 设置当前环境
  * @param {EnvTypes} $env 当前环境
  */
 export function setEnv($env) {
-  env = $env
+  env = $env;
 }
 
 /**
  * @returns {EnvTypes}
  */
 export function getEnv() {
-  return env
+  return env;
 }
 
 /**
@@ -51,5 +51,5 @@ export function getEnv() {
  * @param {ServerTypes} [serverType=ServerTypes.DEFAULT]
  */
 export function getBaseURL(serverType = ServerTypes.DEFAULT) {
-  return BaseURLConfig[env][serverType]
+  return BaseURLConfig[env][serverType];
 }

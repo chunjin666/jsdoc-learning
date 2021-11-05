@@ -2,7 +2,7 @@
  * 环境变量: production 线上，pre 预发布，staging 测试，develop 开发
  * @enum {'develop' | 'staging' | 'pre' | 'production'}
  */
- const EnvTypes = {
+const EnvTypes = {
   /**
    * 开发环境
    * @type {'develop'}
@@ -23,6 +23,6 @@
    * @type {'production'}
    */
   PROD: 'production',
-}
+};
 
-export default EnvTypes
+export default EnvTypes;

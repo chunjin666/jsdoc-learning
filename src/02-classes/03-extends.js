@@ -6,6 +6,6 @@
  * @template T
  * @extends {Set<T>}
  */
- class SortableSet extends Set {
+class SortableSet extends Set {
   // ...
 }

@@ -1,11 +1,11 @@
 /**
  * @template T
- * @param {T[]} arr1 
- * @param {T[]} arr2 
+ * @param {T[]} arr1
+ * @param {T[]} arr2
  * @returns {T[]}
  */
 function arrSubtract(arr1, arr2) {
-  return arr1.filter(function(item) {
+  return arr1.filter(function (item) {
     return arr2.indexOf(item) === -1;
   });
 }
@@ -17,16 +17,24 @@ function arrSubtract(arr1, arr2) {
  * @param {PropertyKey[]} [excludes] 要忽略的属性列表
  * @param {Record<PropertyKey,any>} [target] 要复制到的目标对象，不传复制到新对象
  */
- export function clonePartial(source, includes = [], excludes = [], target = {}) {
+export function clonePartial(
+  source,
+  includes = [],
+  excludes = [],
+  target = {}
+) {
   if (includes && includes.length) {
     return includes.reduce((tar, key) => {
-      tar[key] = source[key]
-      return tar
-    }, target)
+      tar[key] = source[key];
+      return tar;
+    }, target);
   } else {
-    return arrSubtract(Object.keys(source), excludes || []).reduce((tar, key) => {
-      tar[key] = source[key]
-      return tar
-    }, target)
+    return arrSubtract(Object.keys(source), excludes || []).reduce(
+      (tar, key) => {
+        tar[key] = source[key];
+        return tar;
+      },
+      target
+    );
   }
 }

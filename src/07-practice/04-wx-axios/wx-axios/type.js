@@ -2,14 +2,14 @@
  * 是否是 `null` 或者 `undefined`
  * @param {any} value
  */
- export function isNil(value) {
-  return value == null
+export function isNil(value) {
+  return value == null;
 }
 
 /**
  * Object.prototype.toString
  */
-export const objectToString = Object.prototype.toString
+export const objectToString = Object.prototype.toString;
 
 /**
  *
@@ -17,7 +17,7 @@ export const objectToString = Object.prototype.toString
  * @returns {string}
  */
 export function getRawType(value) {
-  return objectToString.call(value).slice(8, -1)
+  return objectToString.call(value).slice(8, -1);
 }
 
 /**
@@ -26,6 +26,6 @@ export function getRawType(value) {
  * @param {string} type
  */
 export function isRawType(value, type) {
-  if (typeof value !== 'object') return false
-  return getRawType(value) === type
+  if (typeof value !== 'object') return false;
+  return getRawType(value) === type;
 }

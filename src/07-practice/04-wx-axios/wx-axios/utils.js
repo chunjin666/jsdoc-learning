@@ -13,20 +13,20 @@
 function forEach(obj, fn) {
   // Don't bother if no value provided
   if (obj === null || typeof obj === 'undefined') {
-    return
+    return;
   }
 
   // Force an array if not already something iterable
   if (typeof obj !== 'object') {
     /* eslint no-param-reassign:0*/
-    obj = [obj]
+    obj = [obj];
   }
 
   if (Array.isArray(obj)) {
     // Iterate over array values
     for (let i = 0, l = obj.length; i < l; i++) {
       // eslint-disable-next-line no-useless-call
-      fn.call(null, obj[i], i, obj)
+      fn.call(null, obj[i], i, obj);
     }
   } else {
     // Iterate over object keys
@@ -34,22 +34,22 @@ function forEach(obj, fn) {
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
         // eslint-disable-next-line no-useless-call
         // @ts-ignore
-        fn.call(null, obj[key], key, obj)
+        fn.call(null, obj[key], key, obj);
       }
     }
   }
 }
 
 /**
- * 
- * @param {Function} fn 
- * @param {any} thisArg 
- * @returns 
+ *
+ * @param {Function} fn
+ * @param {any} thisArg
+ * @returns
  */
 function bind(fn, thisArg) {
   return function () {
-    return fn.apply(thisArg, Array.from(arguments))
-  }
+    return fn.apply(thisArg, Array.from(arguments));
+  };
 }
 
 /**
@@ -64,24 +64,24 @@ function extendFunctionsFromProto(a, b, thisArg) {
   Object.getOwnPropertyNames(b)
     .filter((key) => key !== 'constructor')
     .forEach((key) => {
-      a[key] = bind(b[key], thisArg)
-    })
-  return a
+      a[key] = bind(b[key], thisArg);
+    });
+  return a;
 }
 
 /**
- * 
- * @param {Record<PropertyKey, any>} a 
- * @param {Record<PropertyKey, any>} b 
- * @returns 
+ *
+ * @param {Record<PropertyKey, any>} a
+ * @param {Record<PropertyKey, any>} b
+ * @returns
  */
 function extendProps(a, b) {
   forEach(b, (val, key) => {
     if (typeof val !== 'function') {
-      a[key] = val
+      a[key] = val;
     }
-  })
-  return a
+  });
+  return a;
 }
 
 export default {
@@ -89,4 +89,4 @@ export default {
   forEach,
   extendFunctionsFromProto,
   extendProps,
-}
+};

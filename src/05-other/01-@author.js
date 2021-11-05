@@ -4,12 +4,8 @@
  */
 export class Awesome {
   constructor() {
-    console.log('awesome')
+    console.log('awesome');
   }
 }
 
-
-
-
-
-const awesome = new Awesome()
+const awesome = new Awesome();

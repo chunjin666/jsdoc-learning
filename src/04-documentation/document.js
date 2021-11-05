@@ -1,13 +1,8 @@
 /** @deprecated */
-const apiV1 = {}
-const apiV2 = {}
+const apiV1 = {};
+const apiV2 = {};
 
-apiV1
-
-
-
-
-
+apiV1;
 
 /**
  * 这2种方式都可以链接到 bar 函数。说是这么说，但实测下面这种方式不行。
@@ -23,12 +18,5 @@ function foo() {}
  */
 function bar() {}
 
-
-
-
-
-
-
-
-foo()
-bar()
+foo();
+bar();

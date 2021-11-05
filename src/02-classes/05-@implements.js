@@ -7,11 +7,11 @@ class CustomElement {
   /**
    * @type {string}
    */
-  accessKey
+  accessKey;
 
   click() {}
   // ...
   constructor() {
-    this.accessKey = "custom"
+    this.accessKey = 'custom';
   }
 }

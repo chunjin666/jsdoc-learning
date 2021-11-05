@@ -1,8 +1,8 @@
-import axios from './wx-axios/axios'
+import axios from './wx-axios/axios';
 
 /** @param {string} msg */
 function handleError(msg) {
-  console.error(msg)
+  console.error(msg);
 }
 
 /**
@@ -15,43 +15,46 @@ function handleError(msg) {
  * @property {boolean | ResultValidator} [resultValidator=true] 返回数据结果检查器,检查不通过自动走错误流程。
  */
 
-const service = /** @type {import('./wx-axios/axios').AxiosCreator<CustomRequestConfig, { data: any}>} */ (axios.create)({
-  baseURL: '',
-  timeout: 6 * 1000,
-  handleError: true,
-  showLoading: false,
-  loadingMsg: '',
-  log: false,
-  resultValidator: undefined,
-})
+const service =
+  /** @type {import('./wx-axios/axios').AxiosCreator<CustomRequestConfig, { data: any}>} */ (
+    axios.create
+  )({
+    baseURL: '',
+    timeout: 6 * 1000,
+    handleError: true,
+    showLoading: false,
+    loadingMsg: '',
+    log: false,
+    resultValidator: undefined,
+  });
 
 service.interceptors.request.use((config) => {
   if (config.showLoading) {
     wx.showLoading({
       title: config.loadingMsg || '加载中...',
       mask: true,
-    })
+    });
   }
 
-  return config
-})
+  return config;
+});
 
 service.interceptors.response.use(
   (response) => {
-    const { config, data } = response
+    const { config, data } = response;
     if (config.showLoading) {
-      wx.hideLoading()
+      wx.hideLoading();
     }
     // ...
-    return data
+    return data;
   },
   (reason) => {
     if (reason.config.showLoading) {
-      wx.hideLoading()
+      wx.hideLoading();
     }
-    handleError('网络连接异常，请检查网络')
-    return Promise.reject(reason)
-  },
-)
+    handleError('网络连接异常，请检查网络');
+    return Promise.reject(reason);
+  }
+);
 
-export default service
+export default service;

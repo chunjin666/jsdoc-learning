@@ -30,21 +30,21 @@
  */
 
 /**
- * 
- * @param {RuleItem} ruleItem 
+ *
+ * @param {RuleItem} ruleItem
  * @returns {RuleItem}
  */
 function formatRuleItem(ruleItem) {
   if (ruleItem && ruleItem.pattern instanceof RegExp) {
     // 由于小程序属性不支持RegExp，所以需要转化为字符串
-    ruleItem.pattern = ruleItem.pattern.toString()
+    ruleItem.pattern = ruleItem.pattern.toString();
   }
-  return ruleItem
+  return ruleItem;
 }
 
 /**
  * 创建form校验规则，实际上啥也没做，只是为了有代码提示。。
- * 
+ *
  * 实际上后面加上了对于正则表达式的处理。
  *
  * 如果使用 `VSCode` 编辑器，使用 `Ctrl+I` 键会弹出提示
@@ -54,10 +54,10 @@ function formatRuleItem(ruleItem) {
 export default function FormRules(rules) {
   Object.values(rules).forEach((value) => {
     if (Array.isArray(value)) {
-      value.forEach((ruleItem) => formatRuleItem(ruleItem))
+      value.forEach((ruleItem) => formatRuleItem(ruleItem));
     } else if (value && typeof value === 'object') {
-      formatRuleItem(value)
+      formatRuleItem(value);
     }
-  })
-  return rules
+  });
+  return rules;
 }

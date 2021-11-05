@@ -1,19 +1,19 @@
 class Car {
   /** @private */
-  innerName = ""
+  innerName = '';
   constructor() {
     /** @private */
-    this.identifier = 100
+    this.identifier = 100;
   }
 
   printIdentifier() {
-    console.log(this.identifier)
+    console.log(this.identifier);
   }
 }
 
-const car = new Car()
-console.log(car.identifier) // 属性“identifier”为私有属性，只能在类“Car”中访问。
-console.log(car.innerName) // 属性“innerName”为私有属性，只能在类“Car”中访问。
+const car = new Car();
+console.log(car.identifier); // 属性“identifier”为私有属性，只能在类“Car”中访问。
+console.log(car.innerName); // 属性“innerName”为私有属性，只能在类“Car”中访问。
 
 // @public 是默认的可以省略不写, 代表着一个属性可以在任何地方访问到.
 // @private 代表一个属性只能在类内部被访问.
@@ -25,22 +25,22 @@ console.log(car.innerName) // 属性“innerName”为私有属性，只能在�
 
 class Car1 {
   /** @readonly */
-  readonlyProp = true
+  readonlyProp = true;
   constructor() {
     /** @readonly */
-    this.identifier = 100
+    this.identifier = 100;
   }
 
   printIdentifier() {
-    console.log(this.identifier)
+    console.log(this.identifier);
   }
 
   someMethod() {
-    this.readonlyProp = false
+    this.readonlyProp = false;
     // 无法分配到 "readonlyProp" ，因为它是只读属性。
   }
 }
 
-const car1 = new Car1()
-car1.identifier = 0
+const car1 = new Car1();
+car1.identifier = 0;
 // 无法分配到 "identifier" ，因为它是只读属性。

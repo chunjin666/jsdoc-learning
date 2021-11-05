@@ -6,12 +6,12 @@
  * @return {T}
  */
 function id(x) {
-  return x
+  return x;
 }
 
-const ta = id('string')
-const tb = id(123)
-const tc = id({})
+const ta = id('string');
+const tb = id(123);
+const tc = id({});
 
 // 可以使用多个标签声明多个类型参数
 /**
@@ -27,7 +27,7 @@ const tc = id({})
  * @param {Executable} executable
  */
 function execute(key, executable) {
-  executable.execute(key)
+  executable.execute(key);
 }
 
 // 指定类型限制的另一个示例。
@@ -42,9 +42,8 @@ function execute(key, executable) {
 /**
  * @type {MergeOption<{c: boolean, d: number}>}
  */
- const option = {}
- option.c
- 
+const option = {};
+option.c;
 
 // 可以这样指定一个默认值给类型参数，这种写法编辑器还不支持。。。
 
@@ -53,4 +52,4 @@ class Cache {
   /** @param {T} initial */
   constructor(T) {}
 }
-let c = new Cache()
+let c = new Cache();

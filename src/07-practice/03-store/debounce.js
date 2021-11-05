@@ -6,26 +6,26 @@
  * @param {boolean} [immediate=false] true 表立即执行，false 表非立即执行
  * @returns {T} 返回一个延迟执行函数
  */
- export default function debounce(func, wait = 0, immediate = false) {
+export default function debounce(func, wait = 0, immediate = false) {
   /** @type {any} */
-  let timeout
+  let timeout;
   // @ts-ignore
   return function () {
     // @ts-ignore
-    const context = this
-    const args = Array.from(arguments)
-    if (timeout) clearTimeout(timeout)
+    const context = this;
+    const args = Array.from(arguments);
+    if (timeout) clearTimeout(timeout);
     if (immediate) {
-      const callNow = !timeout
+      const callNow = !timeout;
       timeout = setTimeout(() => {
-        timeout = null
-      }, wait)
-      if (callNow) func.apply(context, args)
+        timeout = null;
+      }, wait);
+      if (callNow) func.apply(context, args);
     } else {
       timeout = setTimeout(() => {
-        func.apply(context, args)
-        timeout = null
-      }, wait)
+        func.apply(context, args);
+        timeout = null;
+      }, wait);
     }
-  }
+  };
 }

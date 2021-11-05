@@ -11,23 +11,22 @@
  * @returns {string} 返回值
  */
 function stringsStringStrings(p1, p2, p3, p4) {
-  return p1 + p2 + p3 + p4
+  return p1 + p2 + p3 + p4;
 }
-
 
 // @return 也可以用来定义返回值类型
 /**
  * @return {PromiseLike<string>} Bad
  */
 function ps() {
-  return new Promise((resolve) => resolve('ok'))
+  return new Promise((resolve) => resolve('ok'));
 }
 
 /**
  * @returns {{ a: string, b: number }} - 注意是 '@returns' 尽量不要用 '@return'
  */
 function ab() {
-  return { a: 'a', b: 2 }
+  return { a: 'a', b: 2 };
 }
 
 // ---------------------------------------------------------------------------- rest params

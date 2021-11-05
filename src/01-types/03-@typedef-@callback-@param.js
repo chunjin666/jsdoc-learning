@@ -14,7 +14,7 @@
  * @param {SpecialType} value
  */
 function doSomethingWithSpecialType(value) {
-  console.log(value.prop3)
+  console.log(value.prop3);
 }
 
 // 第一行也可以用 `object` (o小写)，不过个人一般使用 `Object`（遵循TypeScript习惯）
@@ -26,7 +26,7 @@ function doSomethingWithSpecialType(value) {
  */
 
 /** @type {SpecialType1} */
-var specialTypeObject1
+var specialTypeObject1;
 
 // ------------------------------------------------------------------------------@callback
 // @callback 和 @typedef 也比较相似，不过它是用来定义一个 function 类型的。
@@ -38,8 +38,8 @@ var specialTypeObject1
  */
 
 /** @type {Predicate} */
-const ok = (s, n) => !(s.length % (n || 2))
-ok('dddd', 3)
+const ok = (s, n) => !(s.length % (n || 2));
+ok('dddd', 3);
 
 // 另外，上面这些其实都可以通过 @typedef 在一行里面写完
 /** @typedef {{ prop1: string, prop2: string, prop3?: number }} SpecialType2 */
@@ -47,12 +47,12 @@ ok('dddd', 3)
 let sp2 = {
   prop1: 'hello',
   prop2: 'world',
-}
+};
 
 /** @typedef {(data: string, index?: number) => boolean} Predicate1 */
 /** @type { Predicate1 } */
-let pd1 = (data, index) => !(data.length % (index || 2))
-pd1('dddd', 3)
+let pd1 = (data, index) => !(data.length % (index || 2));
+pd1('dddd', 3);
 
 // ------------------------------------------------------------------------------@param
 // 当参数是一个对象的时候，也可以使用类似 @typedef 的语法来写
@@ -65,9 +65,9 @@ pd1('dddd', 3)
  * @param {number} [options.prop5=42] - options 的一个有默认值的可选 number 类型属性
  */
 function special(options) {
-  return (options.prop4 || 1001) + (options.prop5 || 0)
+  return (options.prop4 || 1001) + (options.prop5 || 0);
 }
 special({
   prop1: 'hello',
   prop2: 1,
-})
+});
