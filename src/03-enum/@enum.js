@@ -33,24 +33,21 @@ checkOrderState(OrderState.NotPaid); // Ok
 // 还可以把枚举类型写成更精确的联合类型，
 
 /**
- * @enum {'development' | 'staging' | 'production'}
+ * @enum {ValueOf<typeof EnvTypes>}
  */
-const EnvTypes = {
-  /** @type {'development'} */
-  Development: 'development',
-  /** @type {'staging'} */
-  Staging: 'staging',
-  /** @type {'production'} */
-  Production: 'production',
-};
+const EnvTypes = Object.freeze({
+  DEV: 'DEV',
+  STAGING: 'STAGING',
+  PROD: 'PROD',
+});
 
 /**
  * @type {Record<EnvTypes, {baseURL: string, title?: string}>}
  */
 const AppConfig = {
-  [EnvTypes.Development]: { baseURL: '/dev', title: 'xxx' },
-  [EnvTypes.Staging]: { baseURL: '/stage', title: 'yyy' },
-  [EnvTypes.Production]: { baseURL: '/prod', title: 'zzz' },
+  [EnvTypes.DEV]: { baseURL: '/dev', title: 'xxx' },
+  [EnvTypes.STAGING]: { baseURL: '/stage', title: 'yyy' },
+  [EnvTypes.PROD]: { baseURL: '/prod', title: 'zzz' },
 };
 
 /** @type {EnvTypes} */
@@ -60,5 +57,24 @@ let env;
 function getAppConfig() {
   return AppConfig[env];
 }
+
+
+// ------------------------------------------------------------------------------
+// 使用 JSDOc 也能实现类型推断，定义一个工具类型
+
+/**
+ * @template T
+ * @template {keyof T} [K= keyof T]
+ * @typedef {K extends K ? T[K] : never} ValueOf2
+ */
+
+/**
+ * @enum {ValueOf2<typeof EnvTypes>}
+ */
+ const EnvTypes2 = Object.freeze({
+  DEV: 'DEV',
+  STAGING: 'STAGING',
+  PROD: 'PROD',
+});
 
 export default {};
